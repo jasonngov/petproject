@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Virtual Pet</title>
+        <link rel = "stylesheet" type = "text/css" href = "pet.css">
+        <link rel="stylesheet" type = "text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <script src = "pet.js"></script>
+    </head>
+    <body>
+        <h2 id = "header" class = "ml-5 pl-3" style = "color:purple;">Lebron James</h2>
+        <div class = "row ml-5">
+            <div class = "col-md-3">
+                <img src = "images/regularlebron.jpg" id = "image" height = 400px width = 405px style = "border-radius: 5px">
+            </div>
+            <div class = "col-md-2"></div> <!--Created to create space between image and information-->
+            <div class = "col-md-6 ml-4">
+                <div class="form-group">
+                    <label>Thoughts:</label>
+                    <textarea disabled id = "lebronmood" class = "form-control" rows="1" style = "resize: none; width: 100%" ></textarea>
+                </div>
+                <label class = "mt-2">Mood Meter:</label>
+                <div class = "progress" style = "height:20px">
+                    <div class="progress-bar bg-success" id = "moodmeter" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class = "row mt-5">
+                    <div class = "card ml-3" style = "width: 10rem; height: 200px">
+                        <div class = "card-body">
+                            <h5 style = "text-align: center">Happiness</h5>
+                            <h5 class = "display-4 text-center" id = "printHappy" style = "height: 75px;">100</h5>
+                        </div>
+                    </div>
+                    <div class = "card ml-4" style = "width: 10rem; height: 200px">
+                            <div class = "card-body">
+                                <h5 style = "text-align: center">Hungriness</h5>
+                                <h5 id = "printHungry" class = "display-4 text-center" style = "height: 75px;">100</h5>
+                            </div>
+                    </div>
+                    <div class = "card ml-4" style = "width: 10rem; height: 200px">
+                            <div class = "card-body">
+                                <h5 style = "text-align: center">Health</h5>
+                                <h5 id = "printHealth" class = "display-4 text-center" style = "height: 75px;">100</h5>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class = "ml-3 row">
+            <button id = "button1" style = "border: none; width: 95px; height: 50px" class = "btn btn-primary ml-5 mt-2" onclick = "pet()">Pet</button>
+            <button id = "button2" style = "border: none; width: 95px; height: 50px" class = "btn btn-primary ml-2 mt-2" onclick = "feed()">Feed</button>
+            <button id = "button3" style = "border: none; width: 95px; height: 50px;" class = "btn btn-primary ml-2 mt-2" onclick = "praise()">Praise</button>
+            <button id = "button4" style = "border: none; width: 95px; height: 50px;" class = "btn btn-primary ml-2 mt-2" onclick = "changeImage()">Sleep</button>
+        </div>
+    </body>
+</html>
