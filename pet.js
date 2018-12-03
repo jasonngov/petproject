@@ -40,11 +40,12 @@ function pet (){
     negativePet = ["LeBron does not enjoy being pet.", "The King is not a pet.", "The King feels disrespected."];
     random = Math.floor(Math.random() * 3);
 
-    if (happiness <= 100){
+    if (happiness <= 100 && happiness >= 0){
         happiness -= 10;
         if (happiness <= 50){
             happyLevel.style = "color:red"; 
             alert("LeBron is not happy. Stop petting him.") //changes happiness display to red
+            decreaseHealth();
         } 
     } 
     //prints output 
@@ -69,10 +70,11 @@ function feed(){
     hungryLevel = document.getElementById("printHungry");
 
     if(index > 4 || i > 2){i = 0; index = 3;} //resets iterator 
-    if (hungriness == 100){
+    if (hungriness == 100 && hungriness >= 0){
         title.innerHTML = nicknames[1];
         image.src = moods[1];
         thoughts.innerHTML = full[Math.floor(Math.random() * full.length)];
+        decreaseHappiness();
     } else if (hungriness < 100){
         if (hungriness >= 90){
             hungriness = 100; 
@@ -91,6 +93,9 @@ function feed(){
             image.src = moods[index];
             thoughts.innerHTML = foodFeedback[i];
             if(hungriness > 50){hungryLevel.style = "color: black";}
+
+            increaseHealth();
+            increaseHappiness();
         }
     }
     index+=1;
@@ -109,10 +114,14 @@ function praise(){
 
     if (praiseIndex > 5){praiseIndex = 4;}
     if (happiness < 100){
-        happiness += 10;
-        if (happiness >= 50){
+        if (happiness >= 90){
+            happiness = 100;
+            happyLevel.innerHTML = happiness;
+        } else { 
+            happiness += 10;
             happyLevel.style = "color: black";
         }
+        increaseHealth();
     }
     title.innerHTML = nicknames[4];
     image.src = moods[praiseIndex];
@@ -135,12 +144,13 @@ function yell (){
     random = Math.floor(Math.random() * 2);
 
     if(yellIndex > 2){yellIndex = 0;}
-    if (happiness <= 100){
+    if (happiness <= 100 && happiness >= 0){
         happiness -= 10;
 
         if (happiness <= 50){
             happyLevel.style = "color:red"; 
             alert("LeBron is not happy. Stop yelling at him.") //changes happiness display to red
+            decreaseHealth();
         } 
         thoughts.innerHTML = yellResponse[yellIndex];
         image.src = yellMoods[yellIndex];
@@ -167,28 +177,88 @@ function runTimer (){
         decreaseHungriness();
     }, 5000);
 }
+
 /*
  * Function called when user inactive 
+ * Decreases hungryLevel by 10
+ * Health level will decrease when hungryLevel <= 50
+ * Happiness level decreases when hungryLevel <= 75
  */
 function decreaseHungriness (){
     hungriness -= 5; //decreases hungriness
     document.getElementById("printHungry").innerHTML = hungriness; 
 
+    if (hungriness <= 75 && hungriness > 50){
+        decreaseHappiness();
+        document.getElementById("lebronmood").innerHTML = "LeBron is getting hungry...";
+        document.getElementById("image").src = moods[2];
+        document.getElementById("header").innerHTML = nicknames[2];
+    
+    }
     if (hungriness <= 50){
-        //decreaseHealth();
+        random = Math.floor(Math.random() * 3);
         document.getElementById("printHungry").style = "color:red"; //changes font to red
         alert("LeBron is hungry. Feed him!"); //alerts user
+
+        decreaseHealth();
+        decreaseHappiness();
+        document.getElementById("header").innerHTML = nicknames[random];
+        document.getElementById("image").src = moods[random];
+        document.getElementById("lebronmood").innerHTML = "The King is hungry!";
     }
     console.log(hungriness);
 }
 
+/* 
+ * Function implemented when hungriness or happiness level less than 50
+ */
 function decreaseHealth (){
-    healthLevel = document.getElementById("printHealth").innerHTML;
+    healthLevel = document.getElementById("printHealth");
     health -=10;
 
-
+    healthLevel.innerHTML = health;
+    if(health <= 50){healthLevel.style = "color:red";}
 }
 
+/* 
+ * Function implemented when hungryLevel < 75
+ */
+ 
 function decreaseHappiness(){
+    happyLevel = document.getElementById("printHappy");
+    happiness -=5;
+    
+    happyLevel.innerHTML = happiness;
+    if(happiness <= 50){happyLevel.style = "color:red";}
+}
 
+
+/* 
+ * Function implemented to increase health when feed button pressed, or when praise button pressed
+ *
+ */
+function increaseHealth(){
+    healthLevel = document.getElementById("printHealth");
+    
+    if(health < 100){health += 10;}
+
+    healthLevel.innerHTML = health;
+    if(health > 50){healthLevel.style = "color: black";}
+}
+
+/* 
+ * Function implemented to increase happiness when feed button is pressed
+ *
+*/
+function increaseHappiness(){
+    happyLevel = document.getElementById("printHappy");
+    if (happiness < 100){
+        if (happiness >= 90){
+            happiness = 100; 
+        } else {
+            happiness += 10;
+        }
+    }
+    happyLevel.innerHTML = happiness;
+    if (happiness > 50){happyLevel.style = "color:black";}
 }
