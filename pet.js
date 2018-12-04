@@ -40,11 +40,10 @@ function pet (){
     negativePet = ["LeBron does not enjoy being pet.", "The King is not a pet.", "The King feels disrespected."];
     random = Math.floor(Math.random() * 3);
 
-    if (happiness <= 100){
+    if (happiness <= 100 && happiness >= 10){
         happiness -= 10;
         if (happiness <= 50){
             happyLevel.style = "color:red"; 
-            //alert("LeBron is not happy. Stop petting him.") //changes happiness display to red
             decreaseHealth();
         } 
     } 
@@ -76,7 +75,7 @@ function feed(){
         image.src = moods[1];
         thoughts.innerHTML = full[Math.floor(Math.random() * full.length)];
         decreaseHappiness();
-    } else if (hungriness < 100){
+    } else if (hungriness < 100 && hungriness >= 0){
         if (hungriness >= 90){
             hungriness = 100; 
             hungryLevel.innerHTML = hungriness;
@@ -119,7 +118,11 @@ function praise(){
         if (happiness >= 90){
             happiness = 100;
             happyLevel.innerHTML = happiness;
-        } else { 
+        } else if (happiness < 50){
+            happiness += 10;
+            happyLevel.style = "color: red";
+        }
+        else { 
             happiness += 10;
             happyLevel.style = "color: black";
         }
@@ -148,11 +151,12 @@ function yell (){
 
     if(yellIndex > 2){yellIndex = 0;}
     if (happiness <= 100){
-        happiness -= 10;
-
+        if (happiness >= 10){
+            happiness -= 10;
+        }
+        
         if (happiness <= 50){
             happyLevel.style = "color:red"; 
-           // alert("LeBron is not happy. Stop yelling at him.") //changes happiness display to red
             decreaseHealth();
         } 
         thoughts.innerHTML = yellResponse[yellIndex];
@@ -168,7 +172,7 @@ function yell (){
 
 timer = window.setInterval(() => {
 decreaseHungriness();
-}, 3000);
+}, 2000);
 
 
 /* 
@@ -177,7 +181,7 @@ decreaseHungriness();
 function runTimer (){
     timer = window.setInterval(() => {
         decreaseHungriness();
-    }, 5000);
+    }, 3000);
 }
 
 /*
@@ -187,6 +191,7 @@ function runTimer (){
  * Happiness level decreases when hungryLevel <= 75
  */
 function decreaseHungriness (){
+    if (hungriness >= 5){
     hungriness -= 5; //decreases hungriness
     document.getElementById("printHungry").innerHTML = hungriness; 
 
@@ -200,7 +205,6 @@ function decreaseHungriness (){
     if (hungriness <= 50){
         random = Math.floor(Math.random() * 3);
         document.getElementById("printHungry").style = "color:red"; //changes font to red
-        //alert("LeBron is hungry. Feed him!"); //alerts user
 
         decreaseHealth();
         decreaseHappiness();
@@ -209,6 +213,7 @@ function decreaseHungriness (){
         document.getElementById("lebronmood").innerHTML = "The King is hungry!";
     }
     computeMood();
+    }
 }
 
 /* 
@@ -217,7 +222,7 @@ function decreaseHungriness (){
 function decreaseHealth (){
     healthLevel = document.getElementById("printHealth");
     
-    health -=10;
+    if(health >= 10){health -=10;}
 
     healthLevel.innerHTML = health;
     if(health <= 50){healthLevel.style = "color:red";}
@@ -230,7 +235,7 @@ function decreaseHealth (){
 function decreaseHappiness(){
     happyLevel = document.getElementById("printHappy");
 
-    happiness -=5;
+    if(happiness >= 10){happiness -=10;}
     
     happyLevel.innerHTML = happiness;
     if(happiness <= 50){happyLevel.style = "color:red";}
