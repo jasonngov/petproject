@@ -17,7 +17,7 @@ var yellResponse = ["Stop disrespecting the King.", "You're hurting the King's c
 var yellIndex = 0; 
 
 //variable to keep track of hungriness, health, and happiness levels
-var moodMeter, happiness, health, hungriness;
+var moodMeterStyle, happiness, health, hungriness, valueMeter;
 moodMeter = happiness = health = hungriness = 100;
 
 var thoughts, image, title, happyLevel, hungryLevel, healthLevel,timer;
@@ -40,11 +40,11 @@ function pet (){
     negativePet = ["LeBron does not enjoy being pet.", "The King is not a pet.", "The King feels disrespected."];
     random = Math.floor(Math.random() * 3);
 
-    if (happiness <= 100 && happiness >= 0){
+    if (happiness <= 100){
         happiness -= 10;
         if (happiness <= 50){
             happyLevel.style = "color:red"; 
-            alert("LeBron is not happy. Stop petting him.") //changes happiness display to red
+            //alert("LeBron is not happy. Stop petting him.") //changes happiness display to red
             decreaseHealth();
         } 
     } 
@@ -55,6 +55,7 @@ function pet (){
     happyLevel.innerHTML = happiness; //updates happiness value
 
     runTimer();
+    computeMood();
 } 
 
 /*
@@ -70,7 +71,7 @@ function feed(){
     hungryLevel = document.getElementById("printHungry");
 
     if(index > 4 || i > 2){i = 0; index = 3;} //resets iterator 
-    if (hungriness == 100 && hungriness >= 0){
+    if (hungriness == 100){
         title.innerHTML = nicknames[1];
         image.src = moods[1];
         thoughts.innerHTML = full[Math.floor(Math.random() * full.length)];
@@ -101,6 +102,7 @@ function feed(){
     index+=1;
     i+=1;
     runTimer();
+    computeMood();
 }
 /* 
  * Praising LeBron will always generate a positive response, max happinessLevel = 100
@@ -130,6 +132,7 @@ function praise(){
 
     praiseIndex += 1;
     runTimer();
+    computeMood();
 }
 
 /*
@@ -144,12 +147,12 @@ function yell (){
     random = Math.floor(Math.random() * 2);
 
     if(yellIndex > 2){yellIndex = 0;}
-    if (happiness <= 100 && happiness >= 0){
+    if (happiness <= 100){
         happiness -= 10;
 
         if (happiness <= 50){
             happyLevel.style = "color:red"; 
-            alert("LeBron is not happy. Stop yelling at him.") //changes happiness display to red
+           // alert("LeBron is not happy. Stop yelling at him.") //changes happiness display to red
             decreaseHealth();
         } 
         thoughts.innerHTML = yellResponse[yellIndex];
@@ -158,9 +161,8 @@ function yell (){
         happyLevel.innerHTML = happiness;
     }
     yellIndex += 1;
-    console.log(happiness);
-    console.log(random);
     runTimer();
+    computeMood();
 }
 
 
@@ -198,7 +200,7 @@ function decreaseHungriness (){
     if (hungriness <= 50){
         random = Math.floor(Math.random() * 3);
         document.getElementById("printHungry").style = "color:red"; //changes font to red
-        alert("LeBron is hungry. Feed him!"); //alerts user
+        //alert("LeBron is hungry. Feed him!"); //alerts user
 
         decreaseHealth();
         decreaseHappiness();
@@ -206,7 +208,7 @@ function decreaseHungriness (){
         document.getElementById("image").src = moods[random];
         document.getElementById("lebronmood").innerHTML = "The King is hungry!";
     }
-    console.log(hungriness);
+    computeMood();
 }
 
 /* 
@@ -214,6 +216,7 @@ function decreaseHungriness (){
  */
 function decreaseHealth (){
     healthLevel = document.getElementById("printHealth");
+    
     health -=10;
 
     healthLevel.innerHTML = health;
@@ -226,6 +229,7 @@ function decreaseHealth (){
  
 function decreaseHappiness(){
     happyLevel = document.getElementById("printHappy");
+
     happiness -=5;
     
     happyLevel.innerHTML = happiness;
@@ -261,4 +265,14 @@ function increaseHappiness(){
     }
     happyLevel.innerHTML = happiness;
     if (happiness > 50){happyLevel.style = "color:black";}
+}
+function computeMood (){
+    valueMeter = (happiness + hungriness + health)/3;
+    moodMeterStyle = "width: " + valueMeter + "%;";
+
+    moodMeter = document.getElementById("moodmeter");
+    moodMeter.style = moodMeterStyle;
+    moodMeter.setAttribute("aria-valuenow", valueMeter);
+
+    if(valueMeter <= 50){moodMeter.style = moodMeterStyle + "background-color: #D9534F;"}
 }
