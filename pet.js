@@ -113,7 +113,7 @@ function praise(){
     image = document.getElementById("image");
     happyLevel = document.getElementById("printHappy");
 
-    if (praiseIndex > 5){praiseIndex = 4;}
+    if (praiseIndex > 5){praiseIndex = 4; }
     if (happiness < 100){
         if (happiness >= 90){
             happiness = 100;
@@ -128,7 +128,7 @@ function praise(){
         }
         increaseHealth();
     }
-    title.innerHTML = nicknames[4];
+    title.innerHTML = nicknames[praiseIndex];
     image.src = moods[praiseIndex];
     thoughts.innerHTML = praisePhrase [Math.floor(Math.random() * praisePhrase.length)];
     happyLevel.innerHTML = happiness;
